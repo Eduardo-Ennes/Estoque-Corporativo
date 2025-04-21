@@ -1,8 +1,21 @@
 import React from 'react'
 
-function List() {
+function List({Permission, onSelectId}) {
+
+  console.log('Permission List - ', Permission)
+
+  const handleClick = (id) => {
+    onSelectId(id); // Passa o ID para o App
+  };
+
   return (
-    <div>List</div>
+    <>
+      {Permission ? 
+        <button onClick={() => handleClick(51)}>Editar</button>
+      :
+        <button>Cadastrar</button>
+      }
+    </>
   )
 }
 

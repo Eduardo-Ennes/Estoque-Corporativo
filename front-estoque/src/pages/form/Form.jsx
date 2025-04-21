@@ -1,8 +1,18 @@
-import React from 'react'
+import {React} from 'react'
 
-function Form() {
+function Form({selectedId, onClearId}) {
+
   return (
-    <div>Formulário</div>
+    <>
+      {!selectedId ? (
+        <button>Cadastrar</button>
+      ):(
+        <>
+          <button onClick={onClearId}>Atualizar</button>
+          <div>{selectedId}</div>
+        </>
+      )}
+    </>
   )
 }
 

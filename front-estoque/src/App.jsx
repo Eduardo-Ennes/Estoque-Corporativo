@@ -9,7 +9,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './app.css'
 
 const App = () => {
-    const [Permission , setPermission] = useState(false)
+    const [Permission , setPermission] = useState(true)
+    const [selectedId, setSelectedId] = useState(null)
+    
     return (
         <Router>
             <Routes>
@@ -23,15 +25,15 @@ const App = () => {
                         {Permission === true ? (
                             <div className='content'>
                                 <div className='content-header'>
-                                    <Header Permission={Permission}/>
+                                    <Header Permission={Permission} offPermission={() => setPermission(false)} />
                                 </div>
 
                                 <div className='content-form'>
-                                    <Form />
+                                    <Form selectedId={selectedId} onClearId={() => setSelectedId(null)}/>
                                 </div>
 
                                 <div className='content-list'>
-                                    <List />
+                                    <List Permission={Permission} onSelectId={(id) => setSelectedId(id)}/>
                                 </div>
 
                                 <div className='content-card'>
@@ -41,11 +43,11 @@ const App = () => {
                         ):(
                             <div className='content-false'>
                                 <div className='content-header-false'>
-                                    <Header Permission={Permission}/>
+                                    <Header Permission={Permission} onPermission={() => setPermission(true)}/>
                                 </div>
 
                                 <div className='content-list-false'>
-                                    <List />
+                                    <List Permission={Permission}/>
                                 </div>
 
                                 <div className='content-card'>
