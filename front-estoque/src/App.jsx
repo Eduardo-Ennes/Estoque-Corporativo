@@ -43,7 +43,7 @@ const App = () => {
                         ):(
                             <div className='content-false'>
                                 <div className='content-header-false'>
-                                    <Header Permission={Permission} onPermission={() => setPermission(true)}/>
+                                    <Header Permission={Permission}/>
                                 </div>
 
                                 <div className='content-list-false'>

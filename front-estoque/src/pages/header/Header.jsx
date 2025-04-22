@@ -1,20 +1,19 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-function Header({Permission, offPermission, onPermission}) {
+function Header({Permission, offPermission}) {
   console.log('Permission Header - ', Permission) 
 
   return (
     <>
-      <h1>Eduardo Zanelato</h1>
+      <h1 className='Title-Header'>Nome da Loja</h1>
       {Permission ?
         <>
-          <button onClick={offPermission}>Logout</button>
+          <button onClick={offPermission} className='Logout-Button'>Logout</button>
         </>
       :
         <>
-          {/* <Link to='/login'>Login de Administrador</Link> */}
-          <button onClick={onPermission}>Login de administrador</button>
+          <Link to='/login' className='Login-Button'>Login</Link>
         </>
       }
     </>
