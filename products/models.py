@@ -1,37 +1,42 @@
 from django.db import models
 
 class Product(models.Model):
-    name = models.CharField(max_length=75)
-    price = models.DecimalField(max_digits=10, decimal_places=2) 
+    class Meta:
+        verbose_name = 'Produto'
+        verbose_name_plural = 'Produtos'
+        
+        
+    name = models.CharField(max_length=75, verbose_name='Nome do Produto')
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Preço') 
     '''
         max_digits=10 => 10 dígitos no total
         decimal_places=2 => 2 dígitos após a vírgula
         ex: 12345678.90
     '''
-    promocion = models.BooleanField(default=False)
+    promocion = models.BooleanField(default=False, verbose_name='Promoção')
     '''
         default=False => por padrão o valor é False
         default => define um valor padrão a ser salvo no banco de dados caso o usuário não preencha o campo
     '''
-    price_promotion = models.DecimalField(max_digits=10, decimal_places=2, default=0.00) 
+    price_promotion = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, verbose_name='Preço Promoção') 
     '''
         default=0.00 => por padrão o valor é 0.00
     '''
-    stock_quantity = models.IntegerField(default=0)
+    stock_quantity = models.IntegerField(default=0, verbose_name='Quantidade')
     '''
         IntergerField => número inteiro
     '''
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     '''
         auto_now_add=True => o campo é preenchido automaticamente com a data e hora atual quando o objeto é criado
     '''
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
     '''
         auto_now=True => o campo é atualizado automaticamente com a data e hora atual quando o objeto é atualizado
     '''
     
     def __str__(self):
-        return self.name, self.price, self.promocion, self.price_promotion, self.stock_quantity, self.created_at, self.updated_at
+        return f'{self.name}  R${self.price}  {self.promocion}  {self.price_promotion} {self.stock_quantity}  {self.created_at}  {self.updated_at}'
     '''
         O método __str__ serve para determinar como o objeto será exibido de forma legível.
         Quando você cria um objeto do modelo, como um produto, o Django tenta mostrar esse objeto de maneira compreensível.
