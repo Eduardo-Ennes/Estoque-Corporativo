@@ -51,9 +51,9 @@ function List({Permission, onSelectId}) {
                       <td>R$180,00</td>
                       <td>20</td>
                       <td className='td-position-button'>
-                        <button className='button-add-card'>Carrinho</button>
+                        <button>&#128221;</button>
                         <button>&#10060;</button>
-                        <button>r</button>
+                        <button>&#128722;</button>
                       </td>
                     </tr>
 
@@ -64,7 +64,9 @@ function List({Permission, onSelectId}) {
                       <td>R$180,00</td>
                       <td>20</td>
                       <td className='td-position-button'>
-                        <button className='button-add-card'>Carrinho</button>
+                        <button>&#128221;</button>
+                        <button>&#10060;</button>
+                        <button>&#128722;</button>
                       </td>
                     </tr>
                   </tbody>
