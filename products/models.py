@@ -5,7 +5,6 @@ class Product(models.Model):
         verbose_name = 'Produto'
         verbose_name_plural = 'Produtos'
         
-        
     name = models.CharField(max_length=75, verbose_name='Nome do Produto')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Preço') 
     '''
@@ -26,6 +25,8 @@ class Product(models.Model):
     '''
         IntergerField => número inteiro
     '''
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name='Categoria', blank=True, null=True)
+    
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
     '''
         auto_now_add=True => o campo é preenchido automaticamente com a data e hora atual quando o objeto é criado
@@ -49,3 +50,15 @@ class Product(models.Model):
         - Se o nome do produto for "Notebook", o Django vai mostrar isso diretamente ao invés de "<Produto: Produto object (1)>"
     '''   
             
+
+class Category(models.Model):
+    class Meta:
+        verbose_name = 'Categoria'
+        verbose_name_plural = 'Categorias'
+        
+    name = models.CharField(max_length=75, verbose_name='Nome da Categoria')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Atualizado em')
+    
+    def __str__(self):
+        return f'{self.name} {self.created_at} {self.updated_at}'
