@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from decimal import Decimal
-from .models import Product, Category
+from .models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
