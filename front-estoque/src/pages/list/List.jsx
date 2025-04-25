@@ -3,7 +3,7 @@ import '../../app.css'
 
 function List({Permission, onSelectId}) {
 
-  console.log('Permission List - ', Permission)
+  // console.log('Permission List - ', Permission)
   const [Products, setProducts] = useState([1])
 
   const handleClick = (id) => {

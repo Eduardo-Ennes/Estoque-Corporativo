@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 function Header({Permission, offPermission}) {
-  console.log('Permission Header - ', Permission) 
+  // console.log('Permission Header - ', Permission) 
 
   return (
     <>

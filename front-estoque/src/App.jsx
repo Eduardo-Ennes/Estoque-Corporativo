@@ -1,6 +1,6 @@
 import React from 'react' 
 import Header from './pages/header/Header'
-import Form from './pages/form/Form'
+import Form_product from './pages/form/Form_product'
 import List from './pages/list/List'
 import Login from './pages/Login'
 import Card from './pages/card/Card'
@@ -29,7 +29,7 @@ const App = () => {
                                 </div>
 
                                 <div className='content-form'>
-                                    <Form selectedId={selectedId} onClearId={() => setSelectedId(null)}/>
+                                    <Form_product selectedId={selectedId} onClearId={() => setSelectedId(null)}/>
                                 </div>
 
                                 <div className='content-list'>

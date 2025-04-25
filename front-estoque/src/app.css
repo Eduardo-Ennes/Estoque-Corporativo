@@ -7,7 +7,7 @@
     display: grid;
 
     grid-template-columns: 3fr 1fr; 
-    grid-template-rows: 10% 30% 60%;
+    grid-template-rows: 10% 20% 70%;
     grid-template-areas:
       "header card"
       "form   card"
@@ -52,8 +52,86 @@
 .content-form{
     grid-area: form;
     background-color: #ffffff;
+    padding: 0.5rem;
     border-right: solid 0.2rem rgba(0, 0, 0, 0.747);
     border-bottom: solid 0.2rem rgba(0, 0, 0, 0.747);
+}
+
+.form_update{
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+}
+
+.div_form_update_contein_1{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 23rem;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.div_form_update_contein_1 label{
+    font-size: 1rem;
+}
+
+.div_form_update_contein_1 > label > input{
+    width: 1rem;
+}
+
+.div_form_update_contein_1  input{
+    padding: 0.5rem;
+    width: 90%;
+    border-radius: 1rem;
+    border: 1px solid black;
+    outline: none;
+}
+
+.div_form_update_contein_2  input{
+    padding: 0.5rem;
+    width: 90%;
+    border-radius: 1rem;
+    border: 1px solid black;
+    outline: none;
+}
+
+.div_form_update_contein_2 label{
+    font-size: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.div_form_update_contein_2 select{
+    font-size: 1rem;
+    width: 10rem;
+
+}
+
+.div_form_update_contein_2{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 23rem;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.div_form_update_contein_buttons{
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    align-items: end;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.div_form_update_contein_buttons button{
+    padding: 0.3rem;
+    font-size: 1rem;
+    height: 2rem;
+    width: 7rem;
 }
 
 
