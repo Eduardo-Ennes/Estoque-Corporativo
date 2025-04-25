@@ -6,14 +6,14 @@ from .models import Product
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'price', 'promocion', 'price_promotion', 'stock_quantity', 'category']
+        fields = ['name', 'price', 'promotion', 'price_promotion', 'stock_quantity', 'category']
         '''
             fields = Seleciona os campos do model que vc usará no formulário.
         '''
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Nome do Produto'}),
             'price': forms.NumberInput(attrs={'placeholder': 'Preço'}),
-            'promocion': forms.CheckboxInput(),
+            'promotion': forms.CheckboxInput(),
             'price_promotion': forms.NumberInput(attrs={'placeholder': 'Preço Promoção'}),
             'stock_quantity': forms.NumberInput(attrs={'placeholder': 'Quantidade'}),
             'category': forms.Select(),

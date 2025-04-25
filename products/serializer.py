@@ -6,7 +6,7 @@ from .models import Product
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['name', 'price', 'promocion', 'price_promotion', 'stock_quantity', 'category']
+        fields = ['name', 'price', 'promotion', 'price_promotion', 'stock_quantity', 'category']
         
     def validate_name(self, name):
         if name is None or name == '' or name == ' ':
@@ -30,7 +30,7 @@ class ProductSerializer(serializers.ModelSerializer):
         return stock_quantity
     
     def validate(self, data):
-        promotion = data.get('promocion')
+        promotion = data.get('promotion')
         price = data.get('price')
         price_promotion = data.get('price_promotion')
         

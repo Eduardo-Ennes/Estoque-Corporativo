@@ -12,7 +12,7 @@ class Product(models.Model):
         decimal_places=2 => 2 dígitos após a vírgula
         ex: 12345678.90
     '''
-    promocion = models.BooleanField(default=False, verbose_name='Promoção')
+    promotion = models.BooleanField(default=False, verbose_name='Promoção')
     '''
         default=False => por padrão o valor é False
         default => define um valor padrão a ser salvo no banco de dados caso o usuário não preencha o campo
@@ -37,7 +37,7 @@ class Product(models.Model):
     '''
     
     def __str__(self):
-        return f'{self.name}  R${self.price}  {self.promocion}  {self.price_promotion} {self.stock_quantity} {self.category} {self.created_at}  {self.updated_at}'
+        return f'{self.name}  R${self.price}  {self.promotion}  {self.price_promotion} {self.stock_quantity} {self.category} {self.created_at}  {self.updated_at}'
     '''
         O método __str__ serve para determinar como o objeto será exibido de forma legível.
         Quando você cria um objeto do modelo, como um produto, o Django tenta mostrar esse objeto de maneira compreensível.
