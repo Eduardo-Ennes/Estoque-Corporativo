@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from .models import Product
-from serializer import ProductSerializer
+from .serializer import ProductSerializer
 
-class ListProductsView(viewsets.ModelViewSet):
+class ProductsView(viewsets.ModelViewSet):
     model = Product
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
@@ -19,6 +19,9 @@ class ListProductsView(viewsets.ModelViewSet):
     
     def update(self, request, *args, **kwargs):
         return super().update(request, *args, **kwargs)
+    
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)
     
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
