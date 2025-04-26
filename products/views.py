@@ -1,6 +1,6 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.response import Response
-from .models import Product
+from .models import Product, Category
 from .serializer import ProductSerializer
 
 class ProductsView(viewsets.ModelViewSet):
@@ -8,8 +8,20 @@ class ProductsView(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     
+    '''
+        def list(self, request, *args, **kwargs):
+            queryset = self.get_queryset().filter(quantidade__gt=0)  # gt = greater than
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+
+    '''
+    
     def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
+        print('Conexão realizada com sucesso!')
+        quaryset = self.get_queryset().filter(stock_quantity__gt=0)
+        serializer = self.get_serializer(quaryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)

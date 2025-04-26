@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import ApiGet from './ApiGet'
 import '../../app.css'
 
 function List({Permission, onSelectId}) {
@@ -6,9 +7,19 @@ function List({Permission, onSelectId}) {
   // console.log('Permission List - ', Permission)
   const [Products, setProducts] = useState([1])
 
-  const handleClick = (id) => {
-    onSelectId(id); // Passa o ID para o App
-  };
+  useEffect(() => {
+    const FetchApiGet = async () => {
+      try{
+        const response = await ApiGet.getProducts()
+        console.log(response)
+        setProducts(response)
+      }catch(err){
+        console.log(err)
+      }
+    }
+
+    FetchApiGet()
+  }, [])
 
   return (
     <>
@@ -44,31 +55,20 @@ function List({Permission, onSelectId}) {
                   </thead>
 
                   <tbody>
-                    <tr className='tr-table'>
-                      <td title='hahahahahhahhaha' className='list-td-name-product'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, vero!</td>
-                      <td>R$200,00</td>
-                      <td>Sim</td>
-                      <td>R$180,00</td>
-                      <td>20</td>
-                      <td className='td-position-button'>
-                        <button>&#128221;</button>
-                        <button>&#10060;</button>
-                        <button>&#128722;</button>
-                      </td>
-                    </tr>
-
-                    <tr className='tr-table'>
-                      <td title='hahahahahhahhaha' className='list-td-name-product'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga, vero!</td>
-                      <td>R$200,00</td>
-                      <td>Sim</td>
-                      <td>R$180,00</td>
-                      <td>20</td>
-                      <td className='td-position-button'>
-                        <button>&#128221;</button>
-                        <button>&#10060;</button>
-                        <button>&#128722;</button>
-                      </td>
-                    </tr>
+                    {Products.filter(product => product.id !== undefined).map(product =>(
+                      <tr key={product.id} className='tr-table'>
+                          <td title={product.name} className='list-td-name-product'>{product.name}</td>
+                          <td>R${product.price}</td>
+                          <td>{product.promotion? 'Sim' : 'Não'}</td> 
+                          <td>R${product.price_promotion}</td>
+                          <td>{product.stock_quantity}</td>
+                          <td className='td-position-button'>
+                            <button>&#128221;</button>
+                            <button>&#10060;</button>
+                            <button>&#128722;</button>
+                          </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               ):(

@@ -6,7 +6,7 @@ from .models import Product
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['name', 'price', 'promotion', 'price_promotion', 'stock_quantity', 'category']
+        fields = ['id', 'name', 'price', 'promotion', 'price_promotion', 'stock_quantity', 'category']
         
     def validate_name(self, name):
         if name is None or name == '' or name == ' ':

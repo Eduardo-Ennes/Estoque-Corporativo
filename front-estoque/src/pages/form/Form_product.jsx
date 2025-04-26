@@ -8,14 +8,14 @@ function Form_product({onClearId}) {
   const [FormData, setFormData] = useState({
     'name': '',
     'price': 0,
-    'promotion': true,
+    'promotion': false,
     'price_promotion': 0,
     'quantity': 0,
     'category': '',
   })
 
   
-  const handleSubimit = (event) => {
+  const handleSubimitUpdated = (event) => {
     try{
       event.preventDefault()
       const form = FormData
@@ -33,7 +33,7 @@ function Form_product({onClearId}) {
         <button>Cadastrar</button>
       ):(
         <>
-          <form className="form_update" onSubmit={handleSubimit}>
+          <form className="form_update" onSubmit={handleSubimitUpdated}>
             <div className="div_form_update_contein_1">
               <input
               type="text"
