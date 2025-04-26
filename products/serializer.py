@@ -1,9 +1,20 @@
 from rest_framework import serializers
 from decimal import Decimal
-from .models import Product
+from .models import Product, Category
+
+
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['name']
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+    # category_detail = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    
     class Meta:
         model = Product
         fields = ['id', 'name', 'price', 'promotion', 'price_promotion', 'stock_quantity', 'category']
