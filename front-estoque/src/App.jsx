@@ -22,14 +22,18 @@ const App = () => {
                 {/* Página principal ("/") com lógica condicional */}
                 <Route path="/" element={
                     <>
-                        {Permission === true ? (
+                        {Permission ? (
                             <div className='content'>
                                 <div className='content-header'>
                                     <Header Permission={Permission} offPermission={() => setPermission(false)} />
                                 </div>
 
                                 <div className='content-form'>
-                                    <Form_product selectedId={selectedId} onClearId={() => setSelectedId(null)}/>
+                                {/* {Number.isInteger(selectedId) && selectedId > 0 && (
+                                    <Form_product selectedId={selectedId} onClearId={() => setSelectedId(null)} />
+                                )} */}
+                                <Form_product selectedId={selectedId} onClearId={() => setSelectedId(null)} />
+                                    
                                 </div>
 
                                 <div className='content-list'>

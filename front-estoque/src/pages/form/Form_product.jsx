@@ -1,24 +1,37 @@
-import {React, useState} from 'react'
+import {React, useState, useEffect} from 'react'
+import ApiRetriver from './ApiRetriver'
 import "../../app.css"
 
-function Form_product({onClearId}) {
+function Form_product({selectedId, onClearId}) {
 
-  const [IdTeste, setIdTeste] = useState(1)
+  const [ValidationId, setValidationId] = useState(false)
+  const [Product, setProduct] = useState([])
+  const [ProductApi, setProductApi] = useState([])
+  const [Categorys, setCategorys] = useState([])
 
-  const [FormData, setFormData] = useState({
-    'name': '',
-    'price': 0,
-    'promotion': false,
-    'price_promotion': 0,
-    'quantity': 0,
-    'category': '',
-  })
-
+  useEffect(() => {
+    const RetriverApi = async (pk) => {
+      if(pk !== null && Number.isInteger(pk) && pk !== undefined){
+        const response = await ApiRetriver.Retriver(pk)
+        console.log(response.data.categorys)
+        if(response.status === 200){
+          setProduct(response.data.product)
+          setProductApi(response.data.product)
+          setCategorys(response.data.categorys)
+          setValidationId(true)
+        }else{
+          setValidationId(false)
+        }
+      }
+    }
   
-  const handleSubimitUpdated = (event) => {
+    RetriverApi(selectedId)
+  }, [selectedId])
+  
+  const handleSubmitUpdated = (event) => {
     try{
       event.preventDefault()
-      const form = FormData
+      const form = Product
       console.log('*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*')
       console.log('Formulário: ', form)
     }catch(err){
@@ -29,33 +42,31 @@ function Form_product({onClearId}) {
 
   return (
     <>
-      {!IdTeste ? (
+      {ValidationId === false ? (
         <button>Cadastrar</button>
       ):(
         <>
-          <form className="form_update" onSubmit={handleSubimitUpdated}>
+          <form className="form_update" onSubmit={handleSubmitUpdated}>
             <div className="div_form_update_contein_1">
               <input
               type="text"
               name="name"
-              value={FormData.name}
-              onChange={(e) => setFormData({...FormData, name: e.target.value})}
-              placeholder="Nome do produto"/>
+              value={Product.name}
+              onChange={(e) => setProduct({...Product, name: e.target.value})}/>
 
               <input
               type="number"
               name="price"
-              onChange={(e) => setFormData({...FormData, price: e.target.value})}
-              value={FormData.price}
-              placeholder="Valor do produto"/>
+              value={Product.price}
+              onChange={(e) => setProduct({...Product, price: e.target.value})}/>
 
               <label htmlFor=""> 
               Produto em Promoção?
                 <input
                 type="checkbox"
                 name="promotion"
-                checked={FormData.promotion}
-                onChange={(e) => setFormData({...FormData, promotion: e.target.checked})}
+                checked={Product.promotion}
+                onChange={(e) => setProduct({...Product, promotion: e.target.checked})}
                 id="promotion"
                 />
                 
@@ -66,28 +77,24 @@ function Form_product({onClearId}) {
               <input 
               type="number" 
               name="price_promotion"
-              value={FormData.price_promotion}
-              onChange={(e) => setFormData({...FormData, price_promotion: e.target.value})}
-              placeholder="Valor do produto em promoção"/>
+              value={Product.price_promotion}
+              onChange={(e) => setProduct({...Product, price_promotion: e.target.value})}/>
 
               <input 
               type="number" 
               name="quantity"
-              onChange={(e) => setFormData({...FormData, quantity: e.target.value})}
-              value={FormData.quantity}
-              placeholder="Quantidade em estoque"/>
+              value={Product.stock_quantity}
+              onChange={(e) => setProduct({...Product, stock_quantity: e.target.value})}/>
 
               <label htmlFor="">
                 Categoria?
                 <select 
-                name="category"
-                value={FormData.category}
-                onChange={(e) => setFormData({...FormData, category: e.target.value})}
+                value={Product.category}
+                onChange={(e) => setProduct({...Product, category: e.target.value})}
                 >
-                  <option value="1">Fluminense</option>
-                  <option value="2">Barcelona</option>
-                  <option value="3">Chelsea</option>
-                  <option value="4">Coimbra</option>
+                  {Categorys.map(category => (
+                    <option key={category.id} value={category.name}>{category.name}</option>
+                  ))} 
                 </select>
               </label>
             </div>

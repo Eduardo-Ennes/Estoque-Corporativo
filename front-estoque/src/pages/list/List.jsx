@@ -5,13 +5,12 @@ import '../../app.css'
 function List({Permission, onSelectId}) {
 
   // console.log('Permission List - ', Permission)
-  const [Products, setProducts] = useState([1])
+  const [Products, setProducts] = useState([])
 
   useEffect(() => {
     const FetchApiGet = async () => {
       try{
         const response = await ApiGet.getProducts()
-        console.log(response)
         setProducts(response)
       }catch(err){
         console.log(err)
@@ -20,6 +19,14 @@ function List({Permission, onSelectId}) {
 
     FetchApiGet()
   }, [])
+
+  const handleSubmitUpdate = (event, id) => {
+    try{
+      onSelectId(id)
+    }catch(err){
+      console.log(err)
+    }
+  }
 
   return (
     <>
@@ -49,6 +56,7 @@ function List({Permission, onSelectId}) {
                       <th>preço</th>
                       <th>Promoção</th>
                       <th>Preço.P</th>
+                      <th>Categoria</th>
                       <th>Qtd</th>
                       <th>Ação</th>
                     </tr>
@@ -61,9 +69,10 @@ function List({Permission, onSelectId}) {
                           <td>R${product.price}</td>
                           <td>{product.promotion? 'Sim' : 'Não'}</td> 
                           <td>R${product.price_promotion}</td>
+                          <td>{product.category.name}</td>
                           <td>{product.stock_quantity}</td>
                           <td className='td-position-button'>
-                            <button>&#128221;</button>
+                            <button onClick={(e) => handleSubmitUpdate(e, product.id)}>&#128221;</button>
                             <button>&#10060;</button>
                             <button>&#128722;</button>
                           </td>
