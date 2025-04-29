@@ -214,7 +214,7 @@
 }
 
 tbody > tr:hover{
-    background-color: rgba(0, 0, 0, 0.315);
+    background-color: rgba(0, 0, 0, 0.205);
 }
 
 tr{
@@ -227,6 +227,7 @@ tr{
 
 .td-position-button{
     text-align: center;
+    width: 9rem;
 }
 
 .button-add-card{
@@ -238,6 +239,10 @@ tr{
     border: none;
     border-radius: 0.3rem;
     cursor: pointer;
+}
+
+.td-position-promotion{
+    width: 3rem;
 }
 
 .td-position-button{

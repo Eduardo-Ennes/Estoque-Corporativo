@@ -54,7 +54,7 @@ function List({Permission, onSelectId}) {
                     <tr className='tr-table'>
                       <th className='list-th-size-name'>Nome do produto</th>
                       <th>preço</th>
-                      <th>Promoção</th>
+                      <th>Pro</th>
                       <th>Preço.P</th>
                       <th>Categoria</th>
                       <th>Qtd</th>
@@ -67,7 +67,7 @@ function List({Permission, onSelectId}) {
                       <tr key={product.id} className='tr-table'>
                           <td title={product.name} className='list-td-name-product'>{product.name}</td>
                           <td>R${product.price}</td>
-                          <td>{product.promotion? 'Sim' : 'Não'}</td> 
+                          <td className='td-position-promotion'>{product.promotion? 'Sim' : 'Não'}</td> 
                           <td>R${product.price_promotion}</td>
                           <td>{product.category.name}</td>
                           <td>{product.stock_quantity}</td>

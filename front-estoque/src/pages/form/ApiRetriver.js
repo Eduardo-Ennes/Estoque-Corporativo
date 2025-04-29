@@ -28,7 +28,7 @@ class ApiRetriverUpdated{
         console.log('REQUISIÇÃO PATCH')
         try{
             const response = await axios.patch(`http://localhost:8000/products/${id}/`, form_updated)
-            console.log('REQUISIÇÃO PATCH')
+            console.log('RESPONSE: ', response.data)
         }catch(error){
             console.log(error)
             return {error: 'Houve um error no servidor, tente novamente.', status: 500}

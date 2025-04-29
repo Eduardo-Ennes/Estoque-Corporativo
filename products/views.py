@@ -28,12 +28,11 @@ class ProductsView(viewsets.ModelViewSet):
         print('DADOS: ', request.data)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=True)
-        print(serializer)
         if serializer.is_valid():
             self.perform_update(serializer)
-            return Response('Atualizado com sucesso!', status=status.HTTP_200_OK)
+            return Response({'message': 'Atualizado com sucesso!', 'code': status.HTTP_200_OK})
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': serializer.errors, 'code': status.HTTP_400_BAD_REQUEST})
         
     
     def update(self, request, *args, **kwargs):
