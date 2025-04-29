@@ -3,8 +3,6 @@ from decimal import Decimal
 from .models import Product, Category
 
 
-
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -58,11 +56,15 @@ class ProductSerializer(serializers.ModelSerializer):
             if price_promotion is None:
                 raise serializers.ValidationError("O preço promocional não pode ser vazio.")
             
-            if price_promotion < 0:
+            if price_promotion <= 0:
                 raise serializers.ValidationError("O valor do preço promocional deve ser maior que 0.")
             
             if price_promotion >= price:
                 raise serializers.ValidationError("O preço promocional deve ser menor que o preço de mercado.")
+        else: 
+            if price_promotion < 0:
+                raise serializers.ValidationError("O valor do preço promocional não pode ser menor que 0.")
+                
             
         return data
     

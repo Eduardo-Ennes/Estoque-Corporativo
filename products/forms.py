@@ -1,6 +1,4 @@
 from django import forms
-from django.core.exceptions import ValidationError
-from decimal import Decimal
 from .models import Product
 
 class ProductForm(forms.ModelForm):

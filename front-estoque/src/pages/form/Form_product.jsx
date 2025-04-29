@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from 'react'
-import ApiRetriver from './ApiRetriver'
+import ApiUpdated from './ApiRetriver'
 import "../../app.css"
 
 function Form_product({selectedId, onClearId}) {
@@ -12,8 +12,7 @@ function Form_product({selectedId, onClearId}) {
   useEffect(() => {
     const RetriverApi = async (pk) => {
       if(pk !== null && Number.isInteger(pk) && pk !== undefined){
-        const response = await ApiRetriver.Retriver(pk)
-        console.log(response.data.categorys)
+        const response = await ApiUpdated.Retriver(pk)
         if(response.status === 200){
           setProduct(response.data.product)
           setProductApi(response.data.product)
@@ -28,12 +27,10 @@ function Form_product({selectedId, onClearId}) {
     RetriverApi(selectedId)
   }, [selectedId])
   
-  const handleSubmitUpdated = (event) => {
+  const handleSubmitUpdated = async (event) => {
     try{
       event.preventDefault()
-      const form = Product
-      console.log('*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*')
-      console.log('Formulário: ', form)
+      const response = await ApiUpdated.ApiPutAndPatchUpdated(ProductApi, Product)
     }catch(err){
       console.log(err)
     }
@@ -58,7 +55,7 @@ function Form_product({selectedId, onClearId}) {
               type="number"
               name="price"
               value={Product.price}
-              onChange={(e) => setProduct({...Product, price: e.target.value})}/>
+              onChange={(e) => setProduct({...Product, price: Number.parseFloat(e.target.value)})}/>
 
               <label htmlFor=""> 
               Produto em Promoção?
@@ -78,22 +75,22 @@ function Form_product({selectedId, onClearId}) {
               type="number" 
               name="price_promotion"
               value={Product.price_promotion}
-              onChange={(e) => setProduct({...Product, price_promotion: e.target.value})}/>
+              onChange={(e) => setProduct({...Product, price_promotion: Number.parseFloat(e.target.value)})}/>
 
               <input 
               type="number" 
               name="quantity"
               value={Product.stock_quantity}
-              onChange={(e) => setProduct({...Product, stock_quantity: e.target.value})}/>
+              onChange={(e) => setProduct({...Product, stock_quantity: Number.parseFloat(e.target.value)})}/>
 
               <label htmlFor="">
                 Categoria?
                 <select 
                 value={Product.category}
-                onChange={(e) => setProduct({...Product, category: e.target.value})}
+                onChange={(e) => setProduct({...Product, category: Number.parseFloat(e.target.value)})}
                 >
                   {Categorys.map(category => (
-                    <option key={category.id} value={category.name}>{category.name}</option>
+                    <option key={category.id} value={category.id}>{category.name}</option>
                   ))} 
                 </select>
               </label>

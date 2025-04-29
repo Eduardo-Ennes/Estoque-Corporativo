@@ -23,11 +23,23 @@ class ProductsView(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
     
-    def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
-    
     def partial_update(self, request, *args, **kwargs):
-        return super().partial_update(request, *args, **kwargs)
+        print('PATCH')
+        print('DADOS: ', request.data)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        print(serializer)
+        if serializer.is_valid():
+            self.perform_update(serializer)
+            return Response('Atualizado com sucesso!', status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    
+    def update(self, request, *args, **kwargs):
+        print('PUT')
+        print(request.data)
+        return super().update(request, *args, **kwargs)
     
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
