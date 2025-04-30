@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react'
 import ApiGet from './ApiGet'
 import '../../app.css'
 
-function List({Permission, onSelectId}) {
+function List({Permission, onSelectId, ReloadList, changeReloadList}) {
 
-  // console.log('Permission List - ', Permission)
   const [Products, setProducts] = useState([])
 
   useEffect(() => {
     const FetchApiGet = async () => {
       try{
+        console.log('FUNÇÃO DE BUSCAR LISTA')
         const response = await ApiGet.getProducts()
         setProducts(response)
+        changeReloadList()
       }catch(err){
         console.log(err)
       }
     }
-
     FetchApiGet()
-  }, [])
+  }, [ReloadList])
 
   const handleSubmitUpdate = (event, id) => {
     try{

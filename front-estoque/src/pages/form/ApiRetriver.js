@@ -25,11 +25,16 @@ class ApiRetriverUpdated{
     }
 
     async PatchUpdate(id, form_updated){
-        console.log('REQUISIÇÃO PATCH')
         try{
             const response = await axios.patch(`http://localhost:8000/products/${id}/`, form_updated)
-            console.log('RESPONSE: ', response.data)
+            return response
         }catch(error){
+            if(error.response){
+                return {
+                    error: error.response.data,
+                    status: error.response.status
+                };
+            }
             console.log(error)
             return {error: 'Houve um error no servidor, tente novamente.', status: 500}
         }
@@ -38,18 +43,19 @@ class ApiRetriverUpdated{
     async ApiPutAndPatchUpdated(form_api, form_updated){
         const object_to_api = this.ObjectPutOrPatch(form_api, form_updated, 'patch')
         const object_to_api_legth = Object.keys(object_to_api).length
-        console.log('OBJETO', object_to_api)
-        if(object_to_api_legth >= 1 && object_to_api_legth < 6){
-            try{
+        try{
+            if(object_to_api_legth >= 1 && object_to_api_legth < 6){
+                console.log('ENTROU!')
                 const response = await this.PatchUpdate(form_api['id'], object_to_api)
-            }catch(error){
-                console.log(error)
-                return {error: 'Houve um error no servidor, tente novamente.', status: 500}
+                return response
             }
+        }catch(error){
+            console.log(error)
+            return {message: 'Houve um error no servidor, tente novamente.', code: 500}
         }
     }
 
-    ObjectPutOrPatch(form_api, form_updated, method){
+    ObjectPutOrPatch(form_api, form_updated, method){ 
         if(method === 'patch'){
             try{
                 const object_partial_fields = {}

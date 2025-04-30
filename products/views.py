@@ -1,4 +1,5 @@
 from rest_framework import viewsets, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Product, Category
 from .serializer import ProductSerializer, CategorySerializer
@@ -23,22 +24,25 @@ class ProductsView(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
     
+    def update(self, request, *args, **kwargs):
+        print(request.data)
+        return super().update(request, *args, **kwargs)
+    
     def partial_update(self, request, *args, **kwargs):
-        print('PATCH')
-        print('DADOS: ', request.data)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         if serializer.is_valid():
             self.perform_update(serializer)
             return Response({'message': 'Atualizado com sucesso!', 'code': status.HTTP_200_OK})
         else:
-            return Response({'message': serializer.errors, 'code': status.HTTP_400_BAD_REQUEST})
-        
-    
-    def update(self, request, *args, **kwargs):
-        print('PUT')
-        print(request.data)
-        return super().update(request, *args, **kwargs)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
+    
+    
+class ReturnCategoriesForCreate(APIView):
+    def get(self, request):
+        instance = Category.objects.all()
+        category = CategorySerializer(instance, many=True)
+        return Response({'categories': category.data})

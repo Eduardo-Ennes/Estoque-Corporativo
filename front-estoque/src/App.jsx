@@ -1,6 +1,7 @@
 import React from 'react' 
 import Header from './pages/header/Header'
-import Form_product from './pages/form/Form_product'
+import Form_product_update from './pages/form/Form_product_update'
+import Form_product_create from './pages/form/Form_product_create'
 import List from './pages/list/List'
 import Login from './pages/Login'
 import Card from './pages/card/Card'
@@ -11,6 +12,13 @@ import './app.css'
 const App = () => {
     const [Permission , setPermission] = useState(true)
     const [selectedId, setSelectedId] = useState(null)
+    const [ReloadList, setReloadList] = useState(false)
+
+    /* ReloadList: Serve para quando fazermos uma atualização de um objeto a lista atualiza os dados.
+    1 - No Form_product_update, quando atualizado o objeto, a função onClearId() é chamada para por o selectedId = null e o ReloadList = true. selectedId("usado para identificar o objeto que será atualizado.") e  ReloadList("Usamos apenas a sua mudança de estado para acionar o useEffect que aciona a API para buscar os dados da lista atualizados. Apenas a sua mudança de estado, true e false não interferem na lógica.")
+
+    2 - Permission: para identificar se o admin está logado.
+    */
     
     return (
         <Router>
@@ -29,15 +37,18 @@ const App = () => {
                                 </div>
 
                                 <div className='content-form'>
-                                {/* {Number.isInteger(selectedId) && selectedId > 0 && (
-                                    <Form_product selectedId={selectedId} onClearId={() => setSelectedId(null)} />
-                                )} */}
-                                <Form_product selectedId={selectedId} onClearId={() => setSelectedId(null)} />
-                                    
+                                {selectedId === null ? 
+                                    <Form_product_create/>
+                                :
+                                    <Form_product_update selectedId={selectedId} onClearId={() => {    
+                                    setSelectedId(null)
+                                    setReloadList(true)
+                                    }} />
+                                }   
                                 </div>
 
                                 <div className='content-list'>
-                                    <List Permission={Permission} onSelectId={(id) => setSelectedId(id)}/>
+                                    <List Permission={Permission} onSelectId={(id) => setSelectedId(id)} ReloadList={ReloadList} changeReloadList={(() => {setReloadList(false)})}/>
                                 </div>
 
                                 <div className='content-card'>
