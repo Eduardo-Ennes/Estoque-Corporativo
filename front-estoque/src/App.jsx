@@ -38,7 +38,7 @@ const App = () => {
 
                                 <div className='content-form'>
                                 {selectedId === null ? 
-                                    <Form_product_create/>
+                                    <Form_product_create onClearId={() => setReloadList(true)}/>
                                 :
                                     <Form_product_update selectedId={selectedId} onClearId={() => {    
                                     setSelectedId(null)

@@ -10,8 +10,8 @@ class ProductsView(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     
     def list(self, request, *args, **kwargs):
-        quaryset = self.get_queryset().filter(stock_quantity__gt=0)
-        serializer = self.get_serializer(quaryset, many=True)
+        queryset = self.get_queryset().order_by('-pk')
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def retrieve(self, request, *args, **kwargs):
@@ -22,7 +22,11 @@ class ProductsView(viewsets.ModelViewSet):
         return Response({'product': product.data, 'categorys': category.data})
     
     def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Produto criado com sucesso', 'status': status.HTTP_200_OK})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def update(self, request, *args, **kwargs):
         print(request.data)

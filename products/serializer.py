@@ -19,12 +19,15 @@ class ProductSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Product
-        fields = ['id', 'name', 'price', 'promotion', 'price_promotion', 'stock_quantity', 'category']
+        fields = ['id', 'name', 'price', 'promotion', 'price_promotion', 'stock_quantity', 'category', 'category_id']
         
     def validate_name(self, name):
         if name is not None: 
             if name == '' or name == ' ':
                 raise serializers.ValidationError("O nome do produto não pode ser vazio.")
+            
+            if Product.objects.filter(name=name).exists():
+                raise serializers.ValidationError("Já existe um produto com este nome.")
             
             if len(name) > 75:
                 raise serializers.ValidationError("O nome do produto não pode ter mais de 75 caracteres.")
@@ -65,6 +68,5 @@ class ProductSerializer(serializers.ModelSerializer):
                 if price_promotion < 0:
                     raise serializers.ValidationError("O valor do preço promocional não pode ser menor que 0.")
                 
-            
         return data
     

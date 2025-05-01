@@ -9,7 +9,6 @@ function List({Permission, onSelectId, ReloadList, changeReloadList}) {
   useEffect(() => {
     const FetchApiGet = async () => {
       try{
-        console.log('FUNÇÃO DE BUSCAR LISTA')
         const response = await ApiGet.getProducts()
         setProducts(response)
         changeReloadList()
@@ -63,7 +62,7 @@ function List({Permission, onSelectId, ReloadList, changeReloadList}) {
                   </thead>
 
                   <tbody>
-                    {Products.filter(product => product.id !== undefined).map(product =>(
+                    {Products.map(product =>(
                       <tr key={product.id} className='tr-table'>
                           <td title={product.name} className='list-td-name-product'>{product.name}</td>
                           <td>R${product.price}</td>
