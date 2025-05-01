@@ -4,9 +4,23 @@ import "../../app.css"
 
 function Form_product_update({selectedId, onClearId}) {
 
-  const [Product, setProduct] = useState([])
-  const [ProductApi, setProductApi] = useState([])
   const [Categorys, setCategorys] = useState([])
+  const [Product, setProduct] = useState({
+    'name': '',
+    'price': 0,
+    'promotion': false,
+    'price_promotion': 0,
+    'stock_quantity': 0,
+    'category_id': 1,
+  })
+  const [ProductApi, setProductApi] = useState({
+    'name': '',
+    'price': 0,
+    'promotion': false,
+    'price_promotion': 0,
+    'stock_quantity': 0,
+    'category_id': 1,
+  })
 
 
 
@@ -15,8 +29,22 @@ function Form_product_update({selectedId, onClearId}) {
       if(pk !== null && Number.isInteger(pk) && pk !== undefined){
         const response = await ApiUpdated.Retriver(pk)
         if(response.status === 200){
-          setProduct(response.data.product)
-          setProductApi(response.data.product)
+          setProductApi({
+            'name': response.data.product.name,
+            'price': response.data.product.price,
+            'promotion': response.data.product.promotion,
+            'price_promotion': response.data.product.price_promotion,
+            'stock_quantity': response.data.product.stock_quantity,
+            'category_id': response.data.product.category.id,
+          })
+          setProduct({
+            'name': response.data.product.name,
+            'price': response.data.product.price,
+            'promotion': response.data.product.promotion,
+            'price_promotion': response.data.product.price_promotion,
+            'stock_quantity': response.data.product.stock_quantity,
+            'category_id': response.data.product.category.id,
+          })
           setCategorys(response.data.categorys)
         }
       }
@@ -29,26 +57,21 @@ function Form_product_update({selectedId, onClearId}) {
   const handleSubmitUpdated = async (event) => {
     try{
       event.preventDefault()
-      const response = await ApiUpdated.ApiPutAndPatchUpdated(ProductApi, Product)
+      const response = await ApiUpdated.ApiPutAndPatchUpdated(ProductApi, Product, selectedId)
       if(response.error){
-        if(response.error.name){
-          alert('O nome do produto não pode ter mais de 75 caracteres.')
-          return;
-        }
-        if(response.error.non_field_errors){
-          alert(response.error.non_field_errors[0])
-          return;
+        if(response.error){
+          for(const campo in response.error){
+            alert(`${response.error[campo][0]}`)
+            break;
+          }
         }
       }
-
       alert(response.data.message) 
       onClearId()
     }catch(error){
       console.log(error)
     }
   }
-
-
 
   return (
     <>
@@ -95,8 +118,8 @@ function Form_product_update({selectedId, onClearId}) {
             <label htmlFor="">
               Categoria?
               <select 
-              value={Product.category}
-              onChange={(e) => setProduct({...Product, category: Number.parseFloat(e.target.value)})}
+              value={Product.category_id}
+              onChange={(e) => setProduct({...Product, category_id: Number.parseFloat(e.target.value)})}
               >
                 {Categorys.map(category => (
                   <option key={category.id} value={category.id}>{category.name}</option>

@@ -29,8 +29,14 @@ class ProductsView(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def update(self, request, *args, **kwargs):
-        print(request.data)
-        return super().update(request, *args, **kwargs)
+        print('METHOD PUT')
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        if serializer.is_valid():
+            self.perform_update(serializer)
+            return Response({'message': 'Atualizado com sucesso!', 'code': status.HTTP_200_OK})
+        else: 
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
     
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()

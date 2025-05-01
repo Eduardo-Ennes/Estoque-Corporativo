@@ -12,16 +12,15 @@ class ApiRetriverUpdated{
     }
 
     async PutUpdate(id, form_updated){
-        console.log('REQUISIÇÃO PUT')
-        console.log(id)
-        console.log(form_updated)
-        // try{
-        //     const response = await axios.put(`http://localhost:8000/products/${id}/`, form_updated)
-        //     console.log('REQUISIÇÃO PUT')
-        // }catch(error){
-        //     console.log(error)
-        //     return {error: 'Houve um error no servidor, tente novamente.', status: 500}
-        // }
+        try{
+            const response = await axios.put(`http://localhost:8000/products/${id}/`, form_updated)
+            return response
+        }catch(error){
+            return {
+                error: error.response.data,
+                status: error.response.status
+            };
+        }
     }
 
     async PatchUpdate(id, form_updated){
@@ -40,53 +39,72 @@ class ApiRetriverUpdated{
         }
     }
 
-    async ApiPutAndPatchUpdated(form_api, form_updated){
-        const object_to_api = this.ObjectPutOrPatch(form_api, form_updated, 'patch')
-        const object_to_api_legth = Object.keys(object_to_api).length
-        try{
-            if(object_to_api_legth >= 1 && object_to_api_legth < 6){
-                console.log('ENTROU!')
-                const response = await this.PatchUpdate(form_api['id'], object_to_api)
-                return response
+    async ApiPutAndPatchUpdated(form_api, form_updated, pk){
+        const object_fields_is_equal = this.FormsIsEqual(form_api, form_updated)
+        const object_fields_is_equal_length = Object.keys(object_fields_is_equal).length
+
+        if(object_fields_is_equal_length >= 0 && object_fields_is_equal_length < 6){
+            const object_to_api = this.ObjectPutOrPatch(form_api, form_updated, 'patch')
+            const object_to_api_legth = Object.keys(object_to_api).length
+
+            try{
+                if(object_to_api_legth >= 1 && object_to_api_legth < 6){
+                    console.log('PATCH!')
+                    const response = await this.PatchUpdate(pk, object_to_api)
+                    return response
+            }
+                if(object_to_api_legth === 6){
+                    console.log('PUT')
+                    const response = await this.PutUpdate(pk, form_updated)
+                    return response
             }
         }catch(error){
             console.log(error)
             return {message: 'Houve um error no servidor, tente novamente.', code: 500}
         }
+        }
+        else{
+            console.log('Você não atualizou nenhum campo')
+            return{error: {'Field': ['Você não atualizou nenhum campo']}}
+        }
     }
 
-    ObjectPutOrPatch(form_api, form_updated, method){ 
-        if(method === 'patch'){
-            try{
-                const object_partial_fields = {}
-                for(const key in form_updated){
-                    if(form_updated['promotion'] === true){
-                        if(form_updated[key] === form_api['promotion']){
-                            object_partial_fields[key] = form_api[key]
-                        }
-                        else if(form_updated[key] === form_api['price']){
-                            object_partial_fields[key] = Number.parseFloat(form_api['price'])
-                        }
-                        else if(form_updated[key] === form_api['price_promotion']){
-                            object_partial_fields[key] = Number.parseFloat(form_api['price_promotion'])
-                        }
-                        else if(form_updated[key] != form_api[key]){
-                            object_partial_fields[key] = form_updated[key]
-                        }
-                    }
-                    else{
-                        if(form_updated[key] != form_api[key]){
-                            object_partial_fields[key] = form_updated[key]
-                        }
-                    }
-                }
-
-                return object_partial_fields
-            }catch(error){
-                console.log(error)
-                return {error: 'Houve um error no servidor, tente novamente.', status: 500}
+    FormsIsEqual(form_api, form_updated){
+        const object_fields_is_equal = {}
+        for(const campo in form_updated){
+            if(form_updated[campo] === form_api[campo]){
+                object_fields_is_equal[campo] = form_api[campo]
             }
         }
+
+        return object_fields_is_equal
+    }
+
+    ObjectPutOrPatch(form_api, form_updated){ 
+        const object_partial_fields = {}
+        for(const key in form_updated){
+            if(form_updated['promotion'] === true){
+                if(form_updated[key] === form_api['promotion']){
+                    object_partial_fields[key] = form_api[key]
+                }
+                else if(form_updated[key] === form_api['price']){
+                    object_partial_fields[key] = Number.parseFloat(form_api['price'])
+                }
+                else if(form_updated[key] === form_api['price_promotion']){
+                    object_partial_fields[key] = Number.parseFloat(form_api['price_promotion'])
+                }
+                else if(form_updated[key] != form_api[key]){
+                    object_partial_fields[key] = form_updated[key]
+                }
+            }
+            else{
+                if(form_updated[key] != form_api[key]){
+                    object_partial_fields[key] = form_updated[key]
+                }
+            }
+        }
+
+        return object_partial_fields
     }
 }
 
