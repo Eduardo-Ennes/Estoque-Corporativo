@@ -35,7 +35,7 @@ function Form_product_create({onClearId}) {
       if(response.error){
         for(const campo in response.error){
           alert(`${response.error[campo][0]}`)
-          break;
+          return;
         }
       }
       alert('Produto cadastrado com sucesso!')

@@ -195,7 +195,8 @@
 /* =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= */
 
 .div-table-position-fixed{
-    border-bottom: 1px solid black;
+    border-bottom: solid 0.2rem rgba(0, 0, 0, 0.747);
+    max-height: 24.5rem;
 }
 
 .table{
