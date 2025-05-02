@@ -194,6 +194,10 @@
 }
 /* =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= */
 
+.div-table-position-fixed{
+    border-bottom: 1px solid black;
+}
+
 .table{
     font-size: 1rem;
     margin: 1.3rem auto auto auto;

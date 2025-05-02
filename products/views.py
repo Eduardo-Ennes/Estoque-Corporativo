@@ -29,7 +29,6 @@ class ProductsView(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def update(self, request, *args, **kwargs):
-        print('METHOD PUT')
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data)
         if serializer.is_valid():
@@ -48,7 +47,9 @@ class ProductsView(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def destroy(self, request, *args, **kwargs):
-        return super().destroy(request, *args, **kwargs)
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "Produto deletado com sucesso!"}, status=status.HTTP_200_OK)
     
     
 class ReturnCategoriesForCreate(APIView):

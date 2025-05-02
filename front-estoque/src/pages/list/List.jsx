@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import ApiGet from './ApiGet'
+import axios from 'axios'
 import '../../app.css'
 
-function List({Permission, onSelectId, ReloadList, changeReloadList}) {
+function List({Permission, onSelectId, ReloadList, changeReloadList, ReloadListDelete}) {
 
   const [Products, setProducts] = useState([])
 
@@ -12,6 +13,7 @@ function List({Permission, onSelectId, ReloadList, changeReloadList}) {
         const response = await ApiGet.getProducts()
         setProducts(response)
         changeReloadList()
+        console.log("RODANDO...") // apenas duas vezes
       }catch(err){
         console.log(err)
       }
@@ -24,6 +26,21 @@ function List({Permission, onSelectId, ReloadList, changeReloadList}) {
       onSelectId(id)
     }catch(err){
       console.log(err)
+    }
+  }
+
+  const handleDelete = async (event, id) => {
+    try{
+      event.preventDefault()
+      const confirmation = confirm("Tem certeza que deseja excluir este produto?")
+      if(confirmation === false){
+        return;
+      }
+      const response = await axios.delete(`http://localhost:8000/products/${id}/`)
+      alert(response.data.message)
+      ReloadListDelete()
+    }catch(error){
+      console.log(error)
     }
   }
 
@@ -72,7 +89,7 @@ function List({Permission, onSelectId, ReloadList, changeReloadList}) {
                           <td>{product.stock_quantity}</td>
                           <td className='td-position-button'>
                             <button onClick={(e) => handleSubmitUpdate(e, product.id)}>&#128221;</button>
-                            <button>&#10060;</button>
+                            <button type='button' onClick={(e) => handleDelete(e, product.id)}>&#10060;</button>
                             <button>&#128722;</button>
                           </td>
                       </tr>

@@ -12,7 +12,12 @@ import './app.css'
 const App = () => {
     const [Permission , setPermission] = useState(true)
     const [selectedId, setSelectedId] = useState(null)
-    const [ReloadList, setReloadList] = useState(false)
+    const [ReloadList, setReloadList] = useState(true)
+    // Função para "resetar" ReloadList para false após a atualização
+    const changeReloadList = () => setReloadList(false)
+
+    // Função para acionar o reload da lista
+    const ReloadListDelete = () => setReloadList(true)
 
     /* ReloadList: Serve para quando fazermos uma atualização de um objeto a lista atualiza os dados.
     1 - No Form_product_update, quando atualizado o objeto, a função onClearId() é chamada para por o selectedId = null e o ReloadList = true. selectedId("usado para identificar o objeto que será atualizado.") e  ReloadList("Usamos apenas a sua mudança de estado para acionar o useEffect que aciona a API para buscar os dados da lista atualizados. Apenas a sua mudança de estado, true e false não interferem na lógica.")
@@ -48,7 +53,9 @@ const App = () => {
                                 </div>
 
                                 <div className='content-list'>
-                                    <List Permission={Permission} onSelectId={(id) => setSelectedId(id)} ReloadList={ReloadList} changeReloadList={(() => {setReloadList(false)})}/>
+                                    <List 
+                                    Permission={Permission} onSelectId={(id) => setSelectedId(id)} ReloadList={ReloadList} changeReloadList={changeReloadList}
+                                    ReloadListDelete={ReloadListDelete}/>
                                 </div>
 
                                 <div className='content-card'>
