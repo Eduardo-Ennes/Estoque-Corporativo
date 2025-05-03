@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ApiGet from './ApiGet'
+import ApiCard from './ApiAddCard'
 import axios from 'axios'
 import '../../app.css'
 
@@ -44,6 +45,16 @@ function List({Permission, onSelectId, ReloadList, changeReloadList, ReloadListD
     }
   }
 
+  const handleCard = async (event, pk, qtd=1) => {
+    try{
+      event.preventDefault()
+      const response = await ApiCard.AddCard(pk, qtd)
+      console.log(response)
+    }catch(error){
+      console.log(error)
+    }
+  } 
+
   return (
     <>
       <nav className='nav-search'>
@@ -79,7 +90,7 @@ function List({Permission, onSelectId, ReloadList, changeReloadList, ReloadListD
                 </thead>
 
                 <tbody>
-                  {Products.map(product =>(
+                  {Products.map(product => (
                     <tr key={product.id} className='tr-table'>
                         <td title={product.name} className='list-td-name-product'>{product.name}</td>
                         <td>R${product.price}</td>
@@ -90,7 +101,7 @@ function List({Permission, onSelectId, ReloadList, changeReloadList, ReloadListD
                         <td className='td-position-button'>
                           <button onClick={(e) => handleSubmitUpdate(e, product.id)}>&#128221;</button>
                           <button type='button' onClick={(e) => handleDelete(e, product.id)}>&#10060;</button>
-                          <button>&#128722;</button>
+                          <button type='button' onClick={(e) => handleCard(e, product.id)}>&#128722;</button>
                         </td>
                     </tr>
                   ))}

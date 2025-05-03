@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Product, Category
 from .serializer import ProductSerializer, CategorySerializer
+import products.operation_card as operation_card
 
 class ProductsView(viewsets.ModelViewSet):
     model = Product
@@ -57,3 +58,18 @@ class ReturnCategoriesForCreate(APIView):
         instance = Category.objects.all()
         category = CategorySerializer(instance, many=True)
         return Response({'categories': category.data})
+
+  
+class ProductsCard(APIView):
+    def put(self, request, pk, qtd):
+        print('REQUEST: ', request.data)
+        product = Product.objects.filter(pk=pk).first()
+        serializer = ProductSerializer(product)
+        card = operation_card.Card(pk, qtd, request.data[0], request.data[1], serializer)
+        print()
+        print('---------------------------------')
+        print(card)
+        print('---------------------------------')
+        print()
+        return Response(card, status=status.HTTP_200_OK)
+        
