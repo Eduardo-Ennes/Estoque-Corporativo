@@ -5,6 +5,7 @@ from .models import Product, Category
 from .serializer import ProductSerializer, CategorySerializer
 import products.operation_card as operation_card
 import products.operation_lower_card as operation_lower_card
+from django.contrib.auth import authenticate, login, logout
 
 class ProductsView(viewsets.ModelViewSet):
     model = Product

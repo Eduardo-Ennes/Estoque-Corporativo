@@ -5,12 +5,11 @@ import Form_product_create from './pages/form/Form_product_create'
 import List from './pages/list/List'
 import Login from './pages/Login'
 import Card from './pages/card/Card'
-import { useState } from 'react'    
+import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './app.css'
 
 const App = () => {
-    const [Permission , setPermission] = useState(false)
     const [selectedId, setSelectedId] = useState(null)
     const [ReloadList, setReloadList] = useState(true)
     // Função para "resetar" ReloadList para false após a atualização
@@ -38,61 +37,41 @@ const App = () => {
         
                 {/* Página principal ("/") com lógica condicional */}
                 <Route path="/" element={
-                    <>
-                        {Permission ? (
-                            <div className='content'>
-                                <div className='content-header'>
-                                    <Header Permission={Permission} offPermission={() => setPermission(false)} />
-                                </div>
+                    <div className='content'>
+                        <div className='content-header'>
+                        <Header />
+                        </div>
 
-                                <div className='content-form'>
-                                {selectedId === null ? 
-                                    <Form_product_create onClearId={() => setReloadList(true)}/>
-                                :
-                                    <Form_product_update selectedId={selectedId} onClearId={() => {    
-                                    setSelectedId(null)
-                                    setReloadList(true)
-                                    }} />
-                                }   
-                                </div>
+                        <div className='content-form'>
+                        {selectedId === null ? 
+                            <Form_product_create onClearId={() => setReloadList(true)} />
+                        :
+                            <Form_product_update selectedId={selectedId} onClearId={() => {    
+                            setSelectedId(null)
+                            setReloadList(true)
+                            }} />
+                        }   
+                        </div>
 
-                                <div className='content-list'>
-                                    <List 
-                                    Permission={Permission} onSelectId={(id) => setSelectedId(id)} ReloadList={ReloadList} changeReloadList={changeReloadList}
-                                    ReloadListDelete={ReloadListDelete}
-                                    OnReloadCard={() => setReloadCard(true)}/>
-                                </div>
+                        <div className='content-list'>
+                        <List 
+                            onSelectId={(id) => setSelectedId(id)} 
+                            ReloadList={ReloadList} 
+                            changeReloadList={changeReloadList}
+                            ReloadListDelete={ReloadListDelete}
+                            OnReloadCard={() => setReloadCard(true)}
+                        />
+                        </div>
 
-                                <div className='content-card'>
-                                    <Card 
-                                    OnReloadCard={() => setReloadCard(true)}
-                                    ChangeReloadCard={ChangeReloadCard}
-                                    Reloadcard={Reloadcard}/>
-                                </div>
-                            </div>
-                        ):(
-                            <div className='content-false'>
-                                <div className='content-header-false'>
-                                    <Header Permission={Permission}/>
-                                </div>
-
-                                <div className='content-list-false'>
-                                <List 
-                                    Permission={Permission} onSelectId={(id) => setSelectedId(id)} ReloadList={ReloadList} changeReloadList={changeReloadList}
-                                    ReloadListDelete={ReloadListDelete}
-                                    OnReloadCard={() => setReloadCard(true)}/>
-                                </div>
-
-                                <div className='content-card'>
-                                <Card 
-                                    OnReloadCard={() => setReloadCard(true)}
-                                    ChangeReloadCard={ChangeReloadCard}
-                                    Reloadcard={Reloadcard}/>
-                                </div>
-                            </div>
-                        )}
-                    </>   
-                } />
+                        <div className='content-card'>
+                        <Card 
+                            OnReloadCard={() => setReloadCard(true)}
+                            ChangeReloadCard={ChangeReloadCard}
+                            Reloadcard={Reloadcard}
+                        />
+                        </div>
+                    </div>
+                    } />
             </Routes>
         </Router>
     )
