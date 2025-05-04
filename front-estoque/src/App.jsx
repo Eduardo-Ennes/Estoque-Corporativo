@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './app.css'
 
 const App = () => {
-    const [Permission , setPermission] = useState(true)
+    const [Permission , setPermission] = useState(false)
     const [selectedId, setSelectedId] = useState(null)
     const [ReloadList, setReloadList] = useState(true)
     // Função para "resetar" ReloadList para false após a atualização
@@ -77,11 +77,14 @@ const App = () => {
                                 </div>
 
                                 <div className='content-list-false'>
-                                    <List Permission={Permission}/>
+                                <List 
+                                    Permission={Permission} onSelectId={(id) => setSelectedId(id)} ReloadList={ReloadList} changeReloadList={changeReloadList}
+                                    ReloadListDelete={ReloadListDelete}
+                                    OnReloadCard={() => setReloadCard(true)}/>
                                 </div>
 
                                 <div className='content-card'>
-                                    <Card 
+                                <Card 
                                     OnReloadCard={() => setReloadCard(true)}
                                     ChangeReloadCard={ChangeReloadCard}
                                     Reloadcard={Reloadcard}/>

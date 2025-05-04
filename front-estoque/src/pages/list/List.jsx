@@ -87,6 +87,24 @@ function List({Permission, onSelectId, ReloadList, changeReloadList, ReloadListD
     }
   }
 
+  const handleResetCard = async(event) => {
+    try{
+      const card = localStorage.getItem('card')
+      const price = localStorage.getItem('price')
+      if(card != null && price != null){
+        setTimeout(() => {
+          localStorage.clear()
+        }, 2000)
+        OnReloadCard()
+      }else{
+        alert('Você não possui itens no carrinho!')
+        return;
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <nav className='nav-search'>
@@ -99,6 +117,7 @@ function List({Permission, onSelectId, ReloadList, changeReloadList, ReloadListD
             <option key={categories.id} value={categories.id}>{categories.name}</option>
           ))}
         </select>
+
         <div className='div-search-position'>
           <input 
           type="text" 
@@ -111,6 +130,8 @@ function List({Permission, onSelectId, ReloadList, changeReloadList, ReloadListD
           className='button_icon-search'
           onClick={(e) => handleSearch(e, IdCategory, NameSearch.trim())}><span className="material-icons">search</span></button>
         </div>
+
+        <button type='button' onClick={(e) => handleResetCard(e)} className='Reset_Card'>X</button>
       </nav>
 
       
@@ -181,7 +202,7 @@ function List({Permission, onSelectId, ReloadList, changeReloadList, ReloadListD
                         <td>{product.category.name}</td>
                         <td>{product.stock_quantity}</td>
                         <td className='td-position-button'>
-                          <button>&#128722;</button>
+                          <button type='button' onClick={(e) => handleCard(e, product.id)}>&#128722;</button>
                         </td>
                     </tr>
                   ))}

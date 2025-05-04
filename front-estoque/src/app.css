@@ -192,6 +192,14 @@
     font-size: 1rem;
     height: 1.5rem;
 }
+
+.Reset_Card{
+    width: 2rem;
+    border-radius: 5rem;
+    border: none;
+    background-color: rgb(255, 0, 0);
+}
+
 /* =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*= */
 
 .div-table-position-fixed{
