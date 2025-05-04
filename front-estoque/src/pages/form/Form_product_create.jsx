@@ -40,6 +40,14 @@ function Form_product_create({onClearId}) {
       }
       alert('Produto cadastrado com sucesso!')
       onClearId()
+      setFormCreate({
+        'name': '',
+        'price': 0,
+        'promotion': false,
+        'price_promotion': 0,
+        'stock_quantity': 0,
+        'category_id': 1,
+      })
     }catch(error){
       console.log(error)
     }

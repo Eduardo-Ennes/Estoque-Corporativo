@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .models import Product, Category
 from .serializer import ProductSerializer, CategorySerializer
 import products.operation_card as operation_card
+import products.operation_lower_card as operation_lower_card
 
 class ProductsView(viewsets.ModelViewSet):
     model = Product
@@ -62,14 +63,36 @@ class ReturnCategoriesForCreate(APIView):
   
 class ProductsCard(APIView):
     def put(self, request, pk, qtd):
-        print('REQUEST: ', request.data)
         product = Product.objects.filter(pk=pk).first()
         serializer = ProductSerializer(product)
         card = operation_card.Card(pk, qtd, request.data[0], request.data[1], serializer)
-        print()
-        print('---------------------------------')
-        print(card)
-        print('---------------------------------')
-        print()
         return Response(card, status=status.HTTP_200_OK)
+
+class LowerProductCard(APIView):
+    def put(self, request, pk):
+        print('FUNÇÃO DE LOWER CARRINHO!')
+        card = operation_lower_card.Card(pk, request.data[0], request.data[1])
+        return Response(card, status=status.HTTP_200_OK)
+    
+class GetSearch(APIView):
+    def get(self, request, pk, name):
+        print('name: ', name)
+        if pk > 0 and name:
+            products = Product.objects.filter(
+                category=pk,
+                name__icontains=name
+            )
+            serializer = ProductSerializer(products, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        if pk == 0 and name:
+            products = Product.objects.filter(
+                name__icontains=name
+            )
+            serializer = ProductSerializer(products, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
         

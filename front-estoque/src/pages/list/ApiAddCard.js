@@ -1,9 +1,8 @@
 import axios from 'axios'
 
-class OperationCard{
+class OperationAddCard{
     async AddCard(pk, qtd){
         try{
-            // this.cacela_tudo()
             await this.Local_Storage()
             const stotage_card = localStorage.getItem('card') 
             const storage_price = localStorage.getItem('price') 
@@ -20,10 +19,6 @@ class OperationCard{
         }catch(error){
             console.log(error)
         }
-    }
-
-    async cacela_tudo(){
-        localStorage.clear()
     }
 
     async set_Local_Storage(card, price){
@@ -45,4 +40,4 @@ class OperationCard{
     }
 }
 
-export default new OperationCard()
+export default new OperationAddCard()

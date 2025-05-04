@@ -24,6 +24,10 @@ const App = () => {
 
     2 - Permission: para identificar se o admin está logado.
     */
+
+    const [Reloadcard, setReloadCard] = useState(false)
+
+    const ChangeReloadCard = () => setReloadCard(false)
     
     return (
         <Router>
@@ -55,11 +59,15 @@ const App = () => {
                                 <div className='content-list'>
                                     <List 
                                     Permission={Permission} onSelectId={(id) => setSelectedId(id)} ReloadList={ReloadList} changeReloadList={changeReloadList}
-                                    ReloadListDelete={ReloadListDelete}/>
+                                    ReloadListDelete={ReloadListDelete}
+                                    OnReloadCard={() => setReloadCard(true)}/>
                                 </div>
 
                                 <div className='content-card'>
-                                    <Card />
+                                    <Card 
+                                    OnReloadCard={() => setReloadCard(true)}
+                                    ChangeReloadCard={ChangeReloadCard}
+                                    Reloadcard={Reloadcard}/>
                                 </div>
                             </div>
                         ):(
@@ -73,7 +81,10 @@ const App = () => {
                                 </div>
 
                                 <div className='content-card'>
-                                    <Card />
+                                    <Card 
+                                    OnReloadCard={() => setReloadCard(true)}
+                                    ChangeReloadCard={ChangeReloadCard}
+                                    Reloadcard={Reloadcard}/>
                                 </div>
                             </div>
                         )}
